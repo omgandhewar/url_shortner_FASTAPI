@@ -8,7 +8,7 @@ ALGORITHM="HS256"
 
 ACCESS_TOKEN_EXPIRE_MINUTE=30
 
-def create_access_token():
+def create_access_token(data:dict):
     
     to_encode=data.copy()
     
@@ -25,7 +25,7 @@ def create_access_token():
     return token
 
 
-def create_refresh_token():
+def create_refresh_token(data:dict):
     
     to_encode=data.copy()
     
@@ -47,4 +47,5 @@ def create_refresh_token():
     )
     
     return token
+
     
