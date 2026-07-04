@@ -37,7 +37,7 @@ def get_current_user(request:Request):
     db=sessionlocal()
     
     result=db.execute(
-        text("SELECT id FROM users WHERE id=:user_id"),
+        text("SELECT * FROM users WHERE id=:user_id"),
         {
             "user_id":user_id
         }
