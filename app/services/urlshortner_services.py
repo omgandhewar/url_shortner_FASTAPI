@@ -13,8 +13,10 @@ def generate_code(lenght=6):
     return ''.join(random.choice(char) for _ in range(lenght))
 
 
-def user_urlshortner(Original_url:str):
+def user_urlshortner(Original_url:str,current_user):
     db=sessionlocal()
+    
+    user_id=current_user[0]
     
     parsedurl=urlparse(Original_url)
     
@@ -33,8 +35,9 @@ def user_urlshortner(Original_url:str):
     short_code=generate_code()
     
     db.execute(
-        text("INSERT INTO url_shortner(short_code,Original_url) VALUES(:short_code,:Original_url)"),
+        text("INSERT INTO url_shortner(user_id,short_code,Original_url) VALUES(:user_id,:short_code,:Original_url)"),
     {
+        "user_id":user_id,
         "short_code":short_code,
         "Original_url":Original_url
     }

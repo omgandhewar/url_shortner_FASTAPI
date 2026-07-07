@@ -6,7 +6,7 @@ SECRET_KEY="abc123"
 
 ALGORITHM="HS256"
 
-ACCESS_TOKEN_EXPIRE_MINUTE=10
+ACCESS_TOKEN_EXPIRE_MINUTE=20
 
 def create_access_token(data:dict):
     
