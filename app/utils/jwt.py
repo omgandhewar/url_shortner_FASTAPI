@@ -6,13 +6,13 @@ SECRET_KEY="abc123"
 
 ALGORITHM="HS256"
 
-ACCESS_TOKEN_EXPIRE_MINUTE=20
+ACCESS_TOKEN_EXPIRE_MINUTE=30
 
 def create_access_token(data:dict):
     
     to_encode=data.copy()
     
-    token_expire_time=datetime.utcnow()+timedelta(seconds=ACCESS_TOKEN_EXPIRE_MINUTE)
+    token_expire_time=datetime.utcnow()+timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTE)
     
     to_encode.update({"exp":token_expire_time})
     

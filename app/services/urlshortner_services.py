@@ -82,3 +82,44 @@ def user_urlredirect(short_code):
     db.commit()
     
     return RedirectResponse(Original_url)
+
+
+def get_userurl(current_user):
+    db=sessionlocal()
+    
+    result=db.execute(
+        text("SELECT id,short_code,Original_url,Count_click FROM url_shortner WHERE user_id=:current_user"),
+        {
+            "current_user":current_user.id
+        }
+    )
+
+    user_url=result.mappings().first()
+    
+    if not user_url:
+        return{
+            "message":"url not found"
+        }
+    
+    
+    return{
+        "url":user_url
+    }
+    
+
+def user_dashboard(current_user):
+    db=sessionlocal()
+    
+    result=db.execute(
+        text("SELECT COUNT(Original_url) AS total_url,SUM(Count_click) AS total_count FROM url_shortner WHERE user_id=:current_user"),
+        {
+            "current_user":current_user.id
+        }
+    )
+    
+    user=result.mappings().first()
+    
+    return{
+        "total_url":user["total_url"],
+        "total_count":user["total_count"]
+    }

@@ -45,10 +45,3 @@ def refresh(request:Request):
 def logout(request:Request):
     return user_logout(request.cookies.get("refresh_token"))
 
-@auth_router.get("/dashboard")
-def dashboard(current_user=Depends(get_current_user)):
-    return {
-        "id": current_user.id,
-        "name": current_user.username,
-        "email": current_user.email
-    }
