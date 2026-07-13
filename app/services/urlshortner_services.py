@@ -49,11 +49,15 @@ def user_urlshortner(Original_url:str,current_user):
     }
     
     
-def user_urlredirect(short_code):
+def user_urlredirect(request,short_code):
     db=sessionlocal()
     
+    print({
+    "short_code": short_code
+})
+    
     result=db.execute(
-        text("SELECT short_code,Original_url,Count_click FROM url_shortner WHERE short_code=:short_code"),
+        text("SELECT id,short_code,Original_url,Count_click FROM url_shortner WHERE short_code=:short_code"),
         {
             "short_code":short_code
         }
@@ -61,13 +65,27 @@ def user_urlredirect(short_code):
     
     short_url=result.fetchone()
     
+    
     if not short_url:
         return{
             "message":"url not available"
         }
-        
-    Original_url=short_url[1]
-    Count_click=short_url[2]
+      
+      
+    url_id=short_url[0]    
+    Original_url=short_url[2]
+    Count_click=short_url[3]    
+    
+    db.execute(
+        text("INSERT INTO Click_url(url_id,ip_address,user_agent) VALUES(:url_id,:ip_address,:user_agent)"),
+        {
+            "url_id":url_id,
+            "ip_address":request.client.host,
+            "user_agent":request.headers.get("User-Agent")
+        }
+    )
+    
+    db.commit()
     
     Count_click+=1
     
