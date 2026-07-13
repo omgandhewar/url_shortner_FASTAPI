@@ -1,7 +1,7 @@
 from fastapi import FastAPI, Depends, Request, APIRouter
 from schemas.user import User
 from dependencies import get_current_user
-from services.urlshortner_services import user_urlshortner, user_urlredirect, get_userurl, user_dashboard
+from services.urlshortner_services import user_urlshortner, user_urlredirect, get_userurl, user_dashboard, user_Analytics
 
 
 
@@ -20,7 +20,12 @@ def url_redirect(request:Request,short_code:str,current_user=Depends(get_current
 
 @router.get("/geturl")
 def get_url(current_user=Depends(get_current_user)):
-    return get_userurl(current_user)   
+    return get_userurl(current_user) 
+
+
+@router.get("/Analytics/{url_id}")
+def get_Analytics(url_id,current_user=Depends(get_current_user)):
+    return user_Analytics(url_id,current_user)  
 
 
 @router.get("/dashboard")

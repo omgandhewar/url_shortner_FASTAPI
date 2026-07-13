@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Request 
+from fastapi import FastAPI, Request, HTTPException
 from db.database import sessionlocal
 from sqlalchemy import text
 from fastapi.responses import RedirectResponse
@@ -124,7 +124,43 @@ def get_userurl(current_user):
         "url":user_url
     }
     
-
+    
+def user_Analytics(url_id,current_user):
+    db=sessionlocal()
+    
+    result=db.execute(
+        text("SELECT id FROM url_shortner WHERE id=:url_id AND user_id=:current_user"),
+        {
+            "url_id":url_id,
+            "current_user":current_user.id
+        }
+    )
+    
+    user=result.mappings().first()
+    
+    print(user)
+    
+    if not user:
+        raise HTTPException(status_code=403,detail="short url are not available")
+    
+    result=db.execute(
+        text("SELECT COUNT(*),MAX(clicked_at) FROM Click_url WHERE url_id=:url_id"),
+        {
+            "url_id":user["id"]
+        }
+    )
+    
+    user_obj=result.fetchone()
+    
+    total_clicked=user_obj[0]
+    last_clicked=user_obj[1]
+    
+    return{
+        "total_clicked":total_clicked,
+        "Last_clciked":last_clicked
+    }
+    
+    
 def user_dashboard(current_user):
     db=sessionlocal()
     
