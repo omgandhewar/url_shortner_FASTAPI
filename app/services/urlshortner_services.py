@@ -102,13 +102,28 @@ def user_urlredirect(request,short_code):
     return RedirectResponse(Original_url)
 
 
-def get_userurl(current_user):
+def get_userurl(search,page,limit,current_user):
     db=sessionlocal()
     
-    result=db.execute(
-        text("SELECT id,short_code,Original_url,Count_click FROM url_shortner WHERE user_id=:current_user"),
+    offset=(page-1)*limit
+    
+    if search is None:
+        result=db.execute(
+        text("SELECT id,short_code,Original_url,Count_click FROM url_shortner WHERE user_id=:current_user LIMIT:limit,OFFSET:offset"),
         {
-            "current_user":current_user.id
+            "current_user":current_user.id,
+            "limit":limit,
+            "offset":offset
+        }
+    )
+    else:
+         result=db.execute(
+        text("SELECT id,short_code,Original_url,Count_click FROM url_shortner WHERE user_id=:current_user AND Original_url LIKE :search LIMIT:limit,OFFSET:offset"),
+        {
+            "current_user":current_user.id,
+            "search":f"%{search}%",
+            "limit":limit,
+            "offset":offset
         }
     )
 
@@ -118,7 +133,6 @@ def get_userurl(current_user):
         return{
             "message":"url not found"
         }
-    
     
     return{
         "url":user_url

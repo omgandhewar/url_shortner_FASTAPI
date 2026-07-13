@@ -19,8 +19,8 @@ def url_redirect(request:Request,short_code:str,current_user=Depends(get_current
 
 
 @router.get("/geturl")
-def get_url(current_user=Depends(get_current_user)):
-    return get_userurl(current_user) 
+def get_url(search: str | None=None,page: int=1,limit: int=10,current_user=Depends(get_current_user)):
+    return get_userurl(search,page,limit,current_user) 
 
 
 @router.get("/Analytics/{url_id}")
