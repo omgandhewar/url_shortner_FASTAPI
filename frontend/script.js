@@ -1,0 +1,24 @@
+function login(successcallback){
+
+    let email=document.querySelector("email").value;
+    let password=document.querySelector("password").value;
+
+    fetch("/http://127.0.0.1:8000/login",{
+        method:"POST",
+        headers:{
+            "Content-Type":"application/json"
+        },
+        body:JSON.stringify({
+            email:email,
+            password:password
+        })
+
+    })
+    .then(function(response){
+        return response.json()
+    })
+    .then(function(data){
+        console.log(data);
+        successcallback();
+    })
+}
