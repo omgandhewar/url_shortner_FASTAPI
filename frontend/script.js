@@ -5,6 +5,7 @@ function login(successcallback){
 
     fetch("http://127.0.0.1:8000/login",{
         method:"POST",
+        credentials:"include",
         headers:{
             "Content-Type":"application/json"
         },
@@ -15,16 +16,24 @@ function login(successcallback){
 
     })
     .then(function(response){
+        if(!response.ok){
+            throw new Error("invalid credential");
+        }
         return response.json()
     })
     .then(function(data){
         console.log(data);
         successcallback();
     })
+    .catch(function(error){
+        console.log(error);
+
+    })
     
 }
 
 let loginform=document.querySelector("#loginform");
+console.log(loginform);
 if(loginform){
     loginform.addEventListener("submit",function(event){
 
@@ -42,7 +51,7 @@ function signup(signupcallback){
     let email=document.querySelector("#email").value;
     let password=document.querySelector("#password").value;
 
-    fetch("/http://127.0.0.1:8000/signup",{
+    fetch("http://127.0.0.1:8000/signup",{
         method:"POST",
         headers:{
             "Content-Type":"application/json"
@@ -54,15 +63,14 @@ function signup(signupcallback){
         })
     })
     .then(function(response){
-
-        if(!response.ok){
-            throw error("invalid credential");
-        }
         return response.json();
     })
     .then(function(data){
         console.log(data);
         signupcallback();
+    })
+    .catch(function(error){
+        console.log(error);
     })
 }
 
@@ -77,3 +85,29 @@ if(signupform){
         })
     })
 }
+
+
+function dashboard(){
+
+    fetch("http://127.0.0.1:8000/dashboard",{
+        method:"GET",
+        credentials:"include",
+    })
+    .then(function(response){
+        if(!response.ok){
+            throw new Error("Not Authenticated");
+        }
+
+        return response.json();
+    })
+    .then(function(data){
+        console.log(data);
+        document.getElementById("total_url").innerText=data.total_url;
+        document.getElementById("total_count").innerText=data.total_count;
+    })
+    .catch(function(error){
+        console.log(error);
+    })
+}
+
+dashboard()
