@@ -27,7 +27,6 @@ function login(successcallback){
     })
     .catch(function(error){
         console.log(error);
-
     })
     
 }
@@ -94,6 +93,7 @@ function dashboard(){
         credentials:"include",
     })
     .then(function(response){
+
         if(!response.ok){
             throw new Error("Not Authenticated");
         }
@@ -111,3 +111,60 @@ function dashboard(){
 }
 
 dashboard()
+
+function url_shortner(urlcallback){
+
+    let url=document.querySelector("#short_url").value;
+    
+   fetch("http://127.0.0.1:8000/urlshortner", {
+    method: "POST",
+    credentials: "include",
+    headers: {
+        "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+        Original_url: url
+    })
+})
+.then(function(response){
+
+    console.log("Status:", response.status);
+
+    if (!response.ok) {
+        
+        return response.json().then(function(data){
+
+            throw new Error(data.detail);
+
+        });
+
+    }
+
+    return response.json();
+
+})
+.then(function(data){
+
+    console.log(data);
+
+})
+.catch(function(error){
+
+    alert(error.message);
+
+})
+}
+
+let url_shortner1=document.querySelector("#url_shortner");
+if(url_shortner1){
+    url_shortner1.addEventListener("submit",function(event){
+
+        event.preventDefault();
+
+        url_shortner(function(){
+            console.log("short url");
+        })
+    })
+}
+
+

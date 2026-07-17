@@ -1,11 +1,11 @@
-from fastapi import FastAPI, Request, HTTPException
+from fastapi import FastAPI, Request, Depends, HTTPException
 from jose import jwt, JWTError
 from sqlalchemy import text
-from db.database import sessionlocal
+from db.database import get_db
 from utils.jwt import SECRET_KEY, ALGORITHM
 
 
-def get_current_user(request:Request):
+def get_current_user(request:Request,db=Depends(get_db)):
     
     token=request.cookies.get("access_token")
     
@@ -34,7 +34,6 @@ def get_current_user(request:Request):
             detail="invalid token"
         )
         
-    db=sessionlocal()
     
     result=db.execute(
         text("SELECT * FROM users WHERE id=:user_id"),
@@ -52,3 +51,5 @@ def get_current_user(request:Request):
         )
         
     return user
+  
+    

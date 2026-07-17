@@ -1,5 +1,4 @@
-from fastapi import FastAPI, Request, HTTPException
-from db.database import sessionlocal
+from fastapi import FastAPI, Request, Depends, HTTPException
 from sqlalchemy import text
 from fastapi.responses import RedirectResponse
 import validators
@@ -13,8 +12,7 @@ def generate_code(lenght=6):
     return ''.join(random.choice(char) for _ in range(lenght))
 
 
-def user_urlshortner(Original_url:str,current_user):
-    db=sessionlocal()
+def user_urlshortner(Original_url:str,current_user,db):
     
     user_id=current_user[0]
     
@@ -23,14 +21,7 @@ def user_urlshortner(Original_url:str,current_user):
     print(parsedurl)
     
     if not parsedurl.scheme or not parsedurl.netloc:
-        return{
-            "message":"invalid url"
-        }
-        
-    if not validators.url(Original_url):
-        return{
-            "message":"invalid url"
-        }
+        raise HTTPException(status_code=422,detail="Invalid url")
         
     short_code=generate_code()
     
@@ -49,8 +40,7 @@ def user_urlshortner(Original_url:str,current_user):
     }
     
     
-def user_urlredirect(request,short_code):
-    db=sessionlocal()
+def user_urlredirect(request,short_code,db):
     
     print({
     "short_code": short_code
@@ -102,8 +92,7 @@ def user_urlredirect(request,short_code):
     return RedirectResponse(Original_url)
 
 
-def get_userurl(search,page,limit,current_user):
-    db=sessionlocal()
+def get_userurl(search,page,limit,current_user,db):
     
     offset=(page-1)*limit
     
@@ -139,8 +128,7 @@ def get_userurl(search,page,limit,current_user):
     }
     
     
-def user_Analytics(url_id,current_user):
-    db=sessionlocal()
+def user_Analytics(url_id,current_user,db):
     
     result=db.execute(
         text("SELECT id FROM url_shortner WHERE id=:url_id AND user_id=:current_user"),
@@ -175,8 +163,7 @@ def user_Analytics(url_id,current_user):
     }
     
     
-def user_dashboard(current_user):
-    db=sessionlocal()
+def user_dashboard(current_user,db):
     
     result=db.execute(
         text("SELECT COUNT(Original_url) AS total_url,SUM(Count_click) AS total_count FROM url_shortner WHERE user_id=:current_user"),
