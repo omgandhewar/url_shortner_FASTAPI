@@ -94,6 +94,12 @@ function dashboard(){
     })
     .then(function(response){
 
+   if (response.status === 401) {
+    alert("Session expired. Please login again.");
+    window.location.replace("login.html");
+    return Promise.reject(new Error("Unauthorized"));
+}
+ 
         if(!response.ok){
             throw new Error("Not Authenticated");
         }
@@ -110,7 +116,9 @@ function dashboard(){
     })
 }
 
-dashboard()
+if (window.location.pathname.endsWith("dashboard.html")) {
+    dashboard();
+}
 
 function url_shortner(urlcallback){
 
