@@ -43,5 +43,7 @@ def refresh(request:Request):
 
 @auth_router.post("/logout")
 def logout(request:Request):
-    return user_logout(request.cookies.get("refresh_token"))
+    token = request.cookies.get("refresh_token")
+    print(token)
+    return user_logout(token)
 
