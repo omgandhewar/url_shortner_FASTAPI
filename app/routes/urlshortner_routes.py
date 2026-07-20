@@ -2,7 +2,7 @@ from fastapi import FastAPI, Depends, Request, APIRouter
 from schemas.user import User
 from db.database import get_db
 from dependencies import get_current_user
-from services.urlshortner_services import user_urlshortner, user_urlredirect, get_userurl, user_dashboard, user_Analytics
+from services.urlshortner_services import user_urlshortner, user_urlredirect, get_userurl, user_dashboard, user_Analytics, user_urldelete
 
 
 
@@ -32,3 +32,8 @@ def get_Analytics(url_id,current_user=Depends(get_current_user),db=Depends(get_d
 @router.get("/dashboard")
 def dashboard(current_user=Depends(get_current_user),db=Depends(get_db)):
     return user_dashboard(current_user,db)
+
+
+@router.post("/deleteurl/{id}")
+def delete_url(id,db=Depends(get_db)):
+    return user_urldelete(id,db)

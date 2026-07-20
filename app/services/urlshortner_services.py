@@ -178,3 +178,32 @@ def user_dashboard(current_user,db):
         "total_url":user["total_url"],
         "total_count":user["total_count"]
     }
+    
+    
+def user_urldelete(id,db):
+    
+    result=db.execute(
+        text("SELECT * FROM url_shortner WHERE id=:id"),
+        {
+            "id":id
+        }
+    )
+    
+    user=result.fetchone()
+    
+    if not user:
+        raise HTTPException(status_code=404,detail="user not found")
+    
+    
+    db.execute(
+        text("DELETE FROM url_shortner WHERE id=:id"),
+        {
+            "id":id
+        }
+    )
+    
+    db.commit()
+    
+    return{
+        "message":"url delete succesfully"
+    }
