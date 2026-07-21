@@ -6,13 +6,12 @@
     <title>Document</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dashboard-page">
     <nav>
         <div>
         <a>home</a>
         <a>About us</a>
-        <a>Analytics</a>
-        <a>logout</a>
+        <a id="logout">logout</a>
         </div>
     </nav>
     <strong>total_url:</strong><div id="total_url"></div>
@@ -21,6 +20,9 @@
     <input type="text" id="short_url" placeholder="Enter the url">
     <button type="submit">submit</button>
     </form>
+    <div id="url_list">
+        <h1>welcome</h1>
+    </div>
     <script src="script.js"></script>
 </body>
 </html>

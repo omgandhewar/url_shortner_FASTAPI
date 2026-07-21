@@ -1,212 +1,188 @@
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+/* ===========================
+   Common
+=========================== */
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial, Helvetica, sans-serif;
 }
 
-body {
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background: #f1f5f9;
+input{
+    width:100%;
+    padding:12px;
+    border:1px solid #ccc;
+    border-radius:8px;
+    outline:none;
+    font-size:16px;
 }
 
-#signupform {
-    width: 380px;
-    padding: 30px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+input:focus{
+    border-color:#2563eb;
 }
 
-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    outline: none;
+button{
+    padding:12px;
+    border:none;
+    border-radius:8px;
+    background:#2563eb;
+    color:white;
+    cursor:pointer;
+    transition:.3s;
 }
 
-input:focus {
-    border-color: #16a34a;
-    box-shadow: 0 0 5px rgba(22, 163, 74, 0.3);
+button:hover{
+    background:#1d4ed8;
 }
 
-button {
-    padding: 12px;
-    background: #16a34a;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
+/* ===========================
+   Signup
+=========================== */
+
+.signup-page{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f1f5f9;
 }
 
-button:hover {
-    background: #15803d;
+#signupform{
+    width:380px;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    display:flex;
+    flex-direction:column;
+    gap:15px;
 }
 
-@media (max-width: 450px) {
-    #signupform {
-        width: 90%;
-    }
+/* ===========================
+   Login
+=========================== */
+
+.login-page{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:#f1f5f9;
 }
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
+#loginform{
+    width:350px;
+    background:white;
+    padding:30px;
+    border-radius:12px;
+    box-shadow:0 8px 20px rgba(0,0,0,.15);
+    display:flex;
+    flex-direction:column;
+    gap:15px;
 }
 
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;   /* instead of center */
-    background: #f4f7fb;
+/* ===========================
+   Dashboard
+=========================== */
+
+.dashboard-page{
+    background:#f4f7fb;
+    min-height:100vh;
+    padding-top:90px;
 }
 
-#loginform {
-    width: 350px;
-    padding: 30px;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
+/* Navbar */
+
+.dashboard-page nav{
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:60px;
+    background:#2563eb;
+    display:flex;
+    justify-content:center;
+    align-items:center;
 }
 
-input {
-    width: 100%;
-    padding: 12px 15px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    font-size: 16px;
-    outline: none;
+.dashboard-page nav div{
+    display:flex;
+    gap:40px;
 }
 
-input:focus {
-    border-color: #2563eb;
-    box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+.dashboard-page nav a{
+    color:white;
+    text-decoration:none;
+    cursor:pointer;
+    font-weight:bold;
 }
 
-button {
-    padding: 12px;
-    background: #2563eb;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+/* Cards */
 
-button:hover {
-    background: #1d4ed8;
-}
-
-@media(max-width: 450px) {
-    #loginform {
-        width: 90%;
-    }
-}
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif;
-}
-
-body {
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: #f4f7fb;
-    color: #333;
-}
-
-strong {
-    font-size: 18px;
-    margin-top: 10px;
-    color: #222;
+strong{
+    display:block;
+    text-align:center;
+    margin-top:20px;
+    font-size:18px;
 }
 
 #total_url,
-#total_count {
-    background: white;
-    width: 300px;
-    padding: 12px;
-    margin: 8px 0 15px;
-    border-radius: 8px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: bold;
-    color: #2563eb;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+#total_count{
+    width:250px;
+    margin:10px auto;
+    background:white;
+    padding:15px;
+    text-align:center;
+    border-radius:10px;
+    font-size:22px;
+    font-weight:bold;
+    color:#2563eb;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
 }
 
-form {
-    background: white;
-    padding: 25px;
-    margin-top: 20px;
-    border-radius: 12px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.15);
-    display: flex;
-    gap: 10px;
+/* URL Form */
+
+#url_shortner{
+    width:600px;
+    margin:30px auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:0 5px 15px rgba(0,0,0,.1);
+    display:flex;
+    gap:10px;
 }
 
-input {
-    width: 280px;
-    padding: 12px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    outline: none;
-    font-size: 16px;
+#short_url{
+    flex:1;
 }
 
-input:focus {
-    border-color: #2563eb;
+#url_shortner button{
+    width:120px;
 }
 
-button {
-    padding: 12px 22px;
-    border: none;
-    border-radius: 8px;
-    background: #2563eb;
-    color: white;
-    font-size: 16px;
-    cursor: pointer;
-    transition: 0.3s;
-}
+/* Responsive */
 
-button:hover {
-    background: #1d4ed8;
-}
+@media(max-width:700px){
 
-@media (max-width: 500px) {
-    form {
-        flex-direction: column;
-        width: 90%;
+    #url_shortner{
+        width:90%;
+        flex-direction:column;
     }
 
-    input {
-        width: 100%;
+    #url_shortner button{
+        width:100%;
     }
 
-    button {
-        width: 100%;
+    #signupform,
+    #loginform{
+        width:90%;
     }
+
+    .dashboard-page nav div{
+        gap:20px;
+        font-size:14px;
+    }
+
 }
