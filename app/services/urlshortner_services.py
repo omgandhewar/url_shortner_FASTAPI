@@ -159,7 +159,7 @@ def user_Analytics(url_id,current_user,db):
     
     return{
         "total_clicked":total_clicked,
-        "Last_clciked":last_clicked
+        "Last_clicked":last_clicked
     }
     
     
@@ -174,7 +174,19 @@ def user_dashboard(current_user,db):
     
     user=result.mappings().first()
     
+    url=db.execute(
+        text("SELECT id FROM url_shortner WHERE user_id=:current_user"),
+        {
+            "current_user":current_user.id
+        }
+    )
+    
+    user_obj=url.mappings().all()
+    
+    print(user_obj)
+    
     return{
+        "url":user_obj,
         "total_url":user["total_url"],
         "total_count":user["total_count"]
     }
