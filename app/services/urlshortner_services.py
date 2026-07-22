@@ -40,7 +40,7 @@ def user_urlshortner(Original_url:str,current_user,db):
     }
     
     
-def user_urlredirect(request,short_code,db):
+def user_urlredirect(request,short_code,db,current_user):
     
     print({
     "short_code": short_code
@@ -67,8 +67,9 @@ def user_urlredirect(request,short_code,db):
     Count_click=short_url[3]    
     
     db.execute(
-        text("INSERT INTO Click_url(url_id,ip_address,user_agent) VALUES(:url_id,:ip_address,:user_agent)"),
+        text("INSERT INTO Click_url(user_id,url_id,ip_address,user_agent) VALUES(:current_user,:url_id,:ip_address,:user_agent)"),
         {
+            "current_user":current_user.id,
             "url_id":url_id,
             "ip_address":request.client.host,
             "user_agent":request.headers.get("User-Agent")
@@ -128,27 +129,12 @@ def get_userurl(search,page,limit,current_user,db):
     }
     
     
-def user_Analytics(url_id,current_user,db):
+def user_Analytics(current_user,db):
     
     result=db.execute(
-        text("SELECT id FROM url_shortner WHERE id=:url_id AND user_id=:current_user"),
+        text("SELECT COUNT(*),MAX(clicked_at) FROM Click_url WHERE user_id=:current_user"),
         {
-            "url_id":url_id,
             "current_user":current_user.id
-        }
-    )
-    
-    user=result.mappings().first()
-    
-    print(user)
-    
-    if not user:
-        raise HTTPException(status_code=403,detail="short url are not available")
-    
-    result=db.execute(
-        text("SELECT COUNT(*),MAX(clicked_at) FROM Click_url WHERE url_id=:url_id"),
-        {
-            "url_id":user["id"]
         }
     )
     
@@ -174,19 +160,8 @@ def user_dashboard(current_user,db):
     
     user=result.mappings().first()
     
-    url=db.execute(
-        text("SELECT id FROM url_shortner WHERE user_id=:current_user"),
-        {
-            "current_user":current_user.id
-        }
-    )
-    
-    user_obj=url.mappings().all()
-    
-    print(user_obj)
-    
     return{
-        "url":user_obj,
+        "current_user":current_user.id,
         "total_url":user["total_url"],
         "total_count":user["total_count"]
     }

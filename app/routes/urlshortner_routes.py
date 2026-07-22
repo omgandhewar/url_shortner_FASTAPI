@@ -16,7 +16,7 @@ def url_shortner(data:User,current_user=Depends(get_current_user),db=Depends(get
  
 @router.get("/urlredirect/{short_code}")
 def url_redirect(request:Request,short_code:str,current_user=Depends(get_current_user),db=Depends(get_db)):
-    return user_urlredirect(request,short_code,db)
+    return user_urlredirect(request,short_code,db,current_user)
 
 
 @router.get("/geturl")
@@ -24,9 +24,9 @@ def get_url(search: str | None=None,page: int=1,limit: int=10,current_user=Depen
     return get_userurl(search,page,limit,current_user,db) 
 
 
-@router.get("/Analytics/{url_id}")
-def get_Analytics(url_id,current_user=Depends(get_current_user),db=Depends(get_db)):
-    return user_Analytics(url_id,current_user,db)  
+@router.get("/Analytics/{user_id}")
+def get_Analytics(current_user=Depends(get_current_user),db=Depends(get_db)):
+    return user_Analytics(current_user,db)  
 
 
 @router.get("/dashboard")
