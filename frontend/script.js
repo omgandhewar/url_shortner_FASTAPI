@@ -108,23 +108,21 @@ function dashboard(){
     })
     .then(function(data){
 
-        console.log(data);
+        
         document.getElementById("total_url").innerText=data.total_url;
         document.getElementById("total_count").innerText=data.total_count;
 
         let div=document.querySelector("#url_list");
-
-        data.url.forEach(function(url1){
 
         button=document.createElement("button");
 
         button.innerText = "Analytics";
 
         button.onclick = function () {
-        window.location.href = `analytics.html?id=${url1.id}`;
+        window.location.href = `analytics.html?id=${data.current_user}`;
     }
-        div.appendChild(button);
-    });
+
+    div.appendChild(button);
 
     })
     .catch(function(error){
